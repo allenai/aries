@@ -1,0 +1,11 @@
+__pycache__/
+.git/
+data/
+
+*.png
+*.o
+*.so
+*.egg-info
+
+tmp*
+_levenshtein.c

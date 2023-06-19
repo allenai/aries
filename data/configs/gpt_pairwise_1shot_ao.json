@@ -1,0 +1,37 @@
+{
+    "s2orc_base_path": "data/aries/s2orc/",
+    "paper_edits_file": "data/aries/paper_edits.jsonl",
+    "review_comments_file": "data/aries/review_comments.jsonl",
+    "train_edit_labels_file": "data/aries/edit_labels_dummy.jsonl",
+    "dev_edit_labels_file": "data/aries/edit_labels_dummy.jsonl",
+    "test_edit_labels_file": "data/aries/edit_labels_test.jsonl",
+    "train_negative_sample_method": "other_docs",
+    "dev_negative_sample_method": "other_docs",
+    "test_negative_sample_method": "same_doc",
+    "candidate_edit_type": "full_additions",
+    "candidate_min_chars": 100,
+    "max_negatives": 1,
+    "prune_candidates": true,
+    "write_examples_on_eval": true,
+    "model_pipeline": [
+        {
+            "model_type": "bm25",
+            "bm25_dictionary": "data/experiments/bm25_high_recall_ao/dictionary.pk",
+            "fixed_pred_threshold": 3.1,
+            "fixed_rel_pred_threshold": 4.1,
+            "query_input_format": "comment_with_context",
+            "edit_input_format": "tokens_union"
+        },
+        {
+            "model_type": "gpt",
+            "cache_db_path": "data/gpt3_cache.sqlite",
+            "gpt_model": "gpt-4-0314",
+            "gpt_max_length": 512,
+            "gpt_system_prompt": "You are a helpful research assistant. You must determine whether a given review comment is relevant to a given paper revision.",
+            "gpt_prompt_template": "You need to determine which edits correspond to a given reviewer comment for a scientific paper.  Given a comment and a paper edit (where changes are enclosed by brackets with +/- to indicate additions/deletions), you must determine whether the edit was likely added to the paper to address the comment.  Here are some examples:\n\ncomment: Relatedly, the conclusion mentions \"... random freeze can reduce the computational cost and memory footprint of the power method in GEP \" but this is not explored in much detail in the results.\n\nedit: [+We also observe the potential benefit of random freeze from the perspective of the gradient distribution. Compared to no freeze, random freeze leads to less clipping bias and gradient distortion, as shown in Figure 2 . We adopt the same clipping bound for random freeze and no freeze. As fewer dimensions contribute to the norm computation, random freeze reduces the clipping probability and therefore alleviates clipping bias (Zhang et al., 2020) . We also note that the norm of sparse gradients are not equally scaled down, weak gradients can spontaneously become larger during training, which mitigates the distortion of gradients due to perturbation, while the perturbation of random freeze is already moderated compared to no freeze. With the random freeze strategy, in later epochs the variance of the norm magnitude decreases. A lower number of high-magnitude gradient norms implies less clipping bias, while the decrease in low magnitude gradient norms implies a higher signal-to-noise ratio of the perturbed gradients. The two plots overlap in the subfigure corresponding to the first epoch as the freeze rate is 0 and the networks are initialized equally. The freeze rate at the 20th epoch is 0.45 and reaches 0.9 at the 40th epoch. Note that both axes are in log scale.+]\n\nDoes the edit address the comment (yes/no)?\nA: No\n\ncomment: Relatedly, the conclusion mentions \"... random freeze can reduce the computational cost and memory footprint of the power method in GEP \" but this is not explored in much detail in the results.\n\nedit: [+Advantages of sparsity Projected DP-SGD induces a significant additional computation cost by running the power method and projecting gradients into and out of subspace. For the power method, the basic operation is W W V , W \u2208 R d\u00d7s denotes sample gradients, V \u2208 R d\u00d7b denotes eigenvectors, the computational cost is O(dbs). Similarly, for projection V X; X \u2208 R d\u00d7n denotes original gradients, the computational cost is O(dbn). Applying random freeze, a random selection of rows of X are deleted, while corresponding rows of V, W can be removed as no information of gradient exits in that subspace. We note that b, s might also be able to be reduced. Overall, the computational cost is between O(1 \u2212 r) and O((1 \u2212 r) 3 ). Another issue of projected DP-SGD is the memory footprint of V . Saving sparse V by random freeze can be achieved by storing non-zero values and indices of zeros. The cost of indexing is logarithmic of the number of parameters, consider that log 2 10 9 < 32, we can decrease the memory footprint by removing a single 32 bit float gradient. Communication overhead can similarly be reduced. We note that random freeze uses the same mask during one training epoch, which could contain multiple groups of eigenvectors and communication rounds. Therefore, the cost of indexing is negligible: communication overhead and memory footprint are \u00d5(1 \u2212 r). Further, we define the total density as the total amount of non-zero gradients by random freeze over the total amount of gradients by the original dense representation to reflect these advantages of sparsity.+]\n\nDoes the edit address the comment (yes/no)?\nA: Yes\n\nNow give the answer for the following example:\n\ncomment: {{review_comment}}\n\nedit: {{diff_paragraph}}\n\nDoes the edit address the comment (yes/no)?"
+        }
+    ],
+    "output_dir": "data/experiments/gpt_pairwise_1shot_ao/",
+    "seed": 1
+}
+

@@ -1,0 +1,37 @@
+{
+    "s2orc_base_path": "data/aries/s2orc/",
+    "paper_edits_file": "data/aries/paper_edits.jsonl",
+    "review_comments_file": "data/aries/review_comments.jsonl",
+    "train_edit_labels_file": "data/aries/edit_labels_dummy.jsonl",
+    "dev_edit_labels_file": "data/aries/edit_labels_dummy.jsonl",
+    "test_edit_labels_file": "data/aries/edit_labels_test.jsonl",
+    "train_negative_sample_method": "other_docs",
+    "dev_negative_sample_method": "other_docs",
+    "test_negative_sample_method": "same_doc",
+    "candidate_edit_type": "full_additions",
+    "candidate_min_chars": 100,
+    "max_negatives": 1,
+    "prune_candidates": true,
+    "write_examples_on_eval": true,
+    "model_pipeline": [
+        {
+            "model_type": "bm25",
+            "bm25_dictionary": "data/experiments/bm25_high_recall_ao/dictionary.pk",
+            "fixed_pred_threshold": 3.1,
+            "fixed_rel_pred_threshold": 4.1,
+            "query_input_format": "comment_with_context",
+            "edit_input_format": "tokens_union"
+        },
+        {
+            "model_type": "gpt",
+            "cache_db_path": "data/gpt3_cache.sqlite",
+            "gpt_model": "gpt-4-0314",
+            "gpt_max_length": 512,
+            "gpt_system_prompt": "You are a helpful research assistant. You must determine whether a given review comment is relevant to a given paper revision.",
+            "gpt_prompt_template": "Consider the following review comment for a scientific paper: {{review_comment}}\n\nConsider the following paragraph, which was added to the paper after the review: {{target_paragraph}}\n Is the new paragraph likely to have been added for the purpose of addressing this review comment?  Answer with \"yes\" or \"no\"."
+        }
+    ],
+    "output_dir": "data/experiments/gpt_pairwise_0shot_ao/",
+    "seed": 1
+}
+

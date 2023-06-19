@@ -1,0 +1,26 @@
+torch==1.10.2 --extra-index-url https://download.pytorch.org/whl/cu113
+numpy==1.21
+gensim==4.3
+scipy==1.7
+scikit-learn==1.0
+matplotlib==3.4
+seaborn==0.11
+tokenizers==0.12.1
+transformers==4.21
+tqdm
+pytest
+pylint
+
+nltk
+
+openai>=0.27
+
+requests
+openreview-py==1.0.23
+jupyterlab
+jupyterlab-vim
+datasets
+dill<0.3.5
+sacrebleu
+protobuf==3.20
+openpyxl

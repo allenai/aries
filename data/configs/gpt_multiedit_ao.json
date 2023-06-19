@@ -1,0 +1,37 @@
+{
+    "s2orc_base_path": "data/aries/s2orc/",
+    "paper_edits_file": "data/aries/paper_edits.jsonl",
+    "review_comments_file": "data/aries/review_comments.jsonl",
+    "train_edit_labels_file": "data/aries/edit_labels_dummy.jsonl",
+    "dev_edit_labels_file": "data/aries/edit_labels_dummy.jsonl",
+    "test_edit_labels_file": "data/aries/edit_labels_test.jsonl",
+    "train_negative_sample_method": "other_docs",
+    "dev_negative_sample_method": "other_docs",
+    "test_negative_sample_method": "same_doc",
+    "candidate_edit_type": "full_additions",
+    "candidate_min_chars": 100,
+    "max_negatives": 1,
+    "prune_candidates": true,
+    "write_examples_on_eval": true,
+    "model_pipeline": [
+        {
+            "model_type": "bm25",
+            "bm25_dictionary": "data/experiments/bm25_high_recall_ao/dictionary.pk",
+            "fixed_pred_threshold": 3.1,
+            "fixed_rel_pred_threshold": 4.1,
+            "query_input_format": "comment_with_context",
+            "edit_input_format": "tokens_union"
+        },
+        {
+            "model_type": "gpt_full_paper",
+            "cache_db_path": "data/gpt3_cache.sqlite",
+            "gpt_model": "gpt-4-0314",
+            "gpt_max_length": 8000,
+            "gpt_system_prompt": "You are a helpful research assistant. You must determine whether a given review comment is relevant to a given paper revision.",
+            "gpt_prompt_template": "Consider the following comments that a reviewer made about a scientific paper (each followed by a unique comment id):\n\n{{review_comments}}\n\nBelow is a partial diff of the original paper text and the paper text after the authors made revisions in response to various reviews.  Changes are indicated with brackets \"[]\" with a \"+\" for additions and a \"-\" for deletions.  Below each paragraph is a unique \"edit id\".  Determine which edits were meant to address the given reviewer comments above.\n\n---BEGIN PAPER DIFF---\n{{paper_diff_chunk}}\n---END PAPER DIFF---\n\nWhich edit ids correspond to each of the reviewer's comments?  The relationship is many-to-many; one comment could correspond to several edits, and several comment could correspond to the same edit.  There could also be comments that the authors didn't address at all or edits that were not made in response to any particular comment.\n\nWrite the answer as JSON lines with the format {\"comment_id\": <comment id>, \"edit_ids\": [<edit ids>], \"notes\": \"\"} where each record has a comment id and the list of edit ids that correspond to it.  The \"notes\" field is optional and can contain any notes about edits you weren't sure about or reasons for including/omitting certain edits."
+        }
+    ],
+    "output_dir": "data/experiments/gpt_multiedit_ao/",
+    "seed": 1
+}
+

@@ -1,0 +1,30 @@
+{
+    "s2orc_base_path": "data/aries/s2orc/",
+    "paper_edits_file": "data/aries/paper_edits.jsonl",
+    "review_comments_file": "data/aries/review_comments.jsonl",
+    "train_edit_labels_file": "data/aries/edit_labels_train.jsonl",
+    "dev_edit_labels_file": "data/aries/edit_labels_dev.jsonl",
+    "test_edit_labels_file": "data/aries/edit_labels_test.jsonl",
+    "train_negative_sample_method": "other_docs",
+    "dev_negative_sample_method": "other_docs",
+    "test_negative_sample_method": "same_doc",
+    "candidate_edit_type": "full_additions",
+    "candidate_min_chars": 100,
+    "max_negatives": 10000,
+    "prune_candidates": true,
+    "write_examples_on_eval": true,
+    "dev_max_negatives": 100,
+    "dev_seed": 1,
+    "model_pipeline": [
+        {
+            "model_type": "bm25",
+            "tune_on_dev": true,
+            "tuning_minimum_recall": 0.9,
+            "query_input_format": "comment_with_context",
+            "edit_input_format": "tokens_union"
+        }
+    ],
+    "output_dir": "data/experiments/bm25_high_recall_ao/",
+    "seed": 1
+}
+
