@@ -2,7 +2,7 @@
 
 ## Dataset
 
-To download the dataset, run `aws s3 sync s3://ai2-s2-research-public/aries/ data/aries/`. Below, we provide an overview of the files contained in ARIES.
+To download the dataset, run `aws s3 sync --no-sign-request s3://ai2-s2-research-public/aries/ data/aries/`. Below, we provide an overview of the files contained in ARIES.
 
 `s2orc.tar.gz` contains the S2ORC (full-text) parses of papers with comment-aligned edits, can be extracted with `tar -C data/aries -xf data/aries/s2orc.tar.gz`.  
 
