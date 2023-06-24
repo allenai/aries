@@ -1,5 +1,7 @@
 # ARIES
 
+Data and code for [ARIES: A Corpus of Scientific Paper Edits Made in Response to Peer Reviews](https://arxiv.org/pdf/2306.12587.pdf)
+
 ## Dataset
 
 To download the dataset, run `aws s3 sync --no-sign-request s3://ai2-s2-research-public/aries/ data/aries/`. Below, we provide an overview of the files contained in ARIES.
@@ -85,7 +87,16 @@ Edits can be generated with GPT models using `scripts/generate_edits.py`.  We pr
 
 ## Citation
 
-Coming Soon™
+```
+@misc{darcy2023aries,
+      title={ARIES: A Corpus of Scientific Paper Edits Made in Response to Peer Reviews}, 
+      author={Mike D'Arcy and Alexis Ross and Erin Bransom and Bailey Kuehl and Jonathan Bragg and Tom Hope and Doug Downey},
+      year={2023},
+      eprint={2306.12587},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
 
 ## License
 
