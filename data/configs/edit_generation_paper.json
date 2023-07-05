@@ -1,0 +1,11 @@
+{
+    "cache_db_path": "data/gpt3_cache.sqlite",
+    "s2orc_base_path": "data/aries/s2orc/",
+    "seed": 42,
+    "output_dir": "data/experiments/edit_generation/",
+    "split_ids_file": "data/aries/split_ids.json",
+    "split_name": "test",
+    "review_comments_file": "data/aries/review_comments.jsonl",
+    "prompt_template": "Consider the following excerpt of a scientific paper which is under review for a conference:\n\n--- START ---\nAbstract: {__abstract}\n\nBody: {__body_chunk}\n--- END ---\n\n---\nA reviewer made the following comment about the paper: {__comment_with_context}\n\nWrite a response to the reviewer and an edit (or edits) that could be added somewhere in the paper (or Appendix) to resolve the reviewer's comment.  Above an edit, write the location in the paper where it should be added.  The edit should not explicitly say that it is written in response to a reviewer comment; it just needs to improve the paper such that a future reviewer would be unlikely to make the same comment.  If addressing the comment requires additional experiments or information that you do not have access to, you can use placeholders or fill in reasonable guesses for that information.  An edit may be a new sentence, paragraph, or section, depending on the comment.\n\nFor ease of parsing, write \"Response:\" before the reviewer response, \"Location:\" before the edit location(s), and \"Edit:\" before the edit(s)."
+}
+

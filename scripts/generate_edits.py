@@ -135,6 +135,8 @@ def main():
 
     augment_config(config)
 
+    os.makedirs(config["output_dir"], exist_ok=True)
+
     init_logging(
         logfile=os.path.join(config["output_dir"], "logging_output.log"),
         level=logging.INFO,
@@ -160,7 +162,7 @@ def main():
         with Gpt3CacheClient(config["cache_db_path"]) as gptcli:
             with tqdm.trange(sum(map(len, review_comments_by_docid.values()))) as pbar:
                 for doc_id, comment_records in review_comments_by_docid.items():
-                    doc_s2orc = aries.util.s2orc.load_s2orc(pair_ids_by_doc[doc_id]["source_pdf_id"], fetcher)
+                    doc_s2orc = fetcher.get(pair_ids_by_doc[doc_id]["source_pdf_id"])
                     for idx, comment_record in enumerate(comment_records):
                         record, response = generate_edits_for_doc_comment(doc_s2orc, comment_record, config["prompt_template"], gptcli)
                         all_outputs.append(record)

@@ -20,6 +20,8 @@ To download the dataset, run `aws s3 sync --no-sign-request s3://ai2-s2-research
 
 `raw_split_ids.json` and `review_replies.jsonl` contains the raw split document ids and author responses/reviews used to construct the synthetic dataset.  They are consumed by `scripts/generate_synthetic_data.py`, although the outputs of that script are already available in the train and dev label files.
 
+`gpt3_cache.sqlite` is a cache of the GPT inputs and responses that should be necessary to reproduce the main paper results.  To use it, make sure it is in the path pointed by `"cache_db_path"` in the GPT experiment configs (by default, it isn't, so GPT responses would be re-generated).
+
 
 ## Running experiments
 
